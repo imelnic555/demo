@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: container-java
+          image: devopsschool:v1
+          ports:
+            - containerPort: 8084
