@@ -11,3 +11,5 @@ spec:
           image: localhost:8082/repository/devopstest/devopsschool:v1
           ports:
             - containerPort: 8084
+      imagePullSecrets:
+          - name: regcred
