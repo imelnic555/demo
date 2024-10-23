@@ -1,5 +1,8 @@
 apiVersion: apps/v1
-kind: Deployment
+data:
+  password: admin
+  username: admin
+kind: Secret
 metadata:
   name: metadata-deployment
 spec:
