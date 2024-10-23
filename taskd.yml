@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: metadata-deployment
 spec:
+  selector:
+    matchLabels:
+      app: fluent-bit
   replicas: 1
   template:
     spec:
