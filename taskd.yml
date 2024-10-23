@@ -8,6 +8,6 @@ spec:
     spec:
       containers:
         - name: container-java
-          image: devopsschool:v1
+          image: localhost:8082/repository/devopstest/devopsschool:v1
           ports:
             - containerPort: 8084
