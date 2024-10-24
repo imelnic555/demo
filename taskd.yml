@@ -1,18 +1,20 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: metadata-deployment
+  name: cd-dep
+  namespace: ns
 spec:
-  selector:
-    matchLabels:
-      app: fluent-bit
   replicas: 1
   template:
+    metadata:
+      labels:
+        run: dep-instance
     spec:
       containers:
-        - name: container-java
+        - name: dep-container
           image: localhost:8082/repository/devopstest/devopsschool:v1
           ports:
-            - containerPort: 8084
-      imagePullSecrets:
-          - name: regcred
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
