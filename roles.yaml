@@ -1,0 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: cd
+  name: cd-role
+rules:
+  - apiGroups: ["extensions", ""]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cd-rolebinding
+  namespace: cd
+subjects:
+  - kind: ServiceAccount
+    name: cd-sa
+roleRef:
+  kind: Role
+  name: cd-role
+  apiGroup: rbac.authorization.k8s.io
