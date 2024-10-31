@@ -26,7 +26,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: cd-dep
-  namespace: ns
+  namespace: cd
 spec:
   replicas: 1
   template:
