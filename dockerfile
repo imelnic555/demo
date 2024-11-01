@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y maven
 # Build the application
 RUN mvn clean install -DskipTests
 
-COPY target/docker-java-jar-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java","-jar","/demo-0.0.1-SNAPSHOT.jar"]
+COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
 
 
