@@ -4,7 +4,7 @@ FROM openjdk:17-jdk-slim
 
 # Set the working directory
 WORKDIR /app
-
+COPY . /app
 # Install Maven if required
 RUN apt-get update && apt-get install -y maven
 
