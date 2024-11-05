@@ -1,44 +1,36 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  namespace: default
-  name: pod-manager
-rules:
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get", "list", "create", "delete"]
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: pod-manager-binding
-  namespace: default
-subjects:
-  - kind: User
-    name: cd-sa
-    apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: Role
-  name: pod-manager
-  apiGroup: rbac.authorization.k8s.io
-
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cd-dep
-  namespace: default
+  name: eks-sample-linux-deployment
+  namespace: eks-sample-app
+  labels:
+    app: eks-sample-linux-app
 spec:
-  replicas: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eks-sample-linux-app
   template:
     metadata:
       labels:
-        run: dep-instance
+        app: eks-sample-linux-app
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                      - arm64
       containers:
-        - name: dep-container
-          image: localhost:8082/repository/devopstest/devopsschool:v1
+        - name: nginx
+          image: public.ecr.aws/nginx/nginx:1.23
           ports:
-            - containerPort: 8080
-              protocol: TCP
-            - containerPort: 8443
-              protocol: TCP
+            - name: http
+              containerPort: 80
+          imagePullPolicy: IfNotPresent
+      nodeSelector:
+        kubernetes.io/os: linux
