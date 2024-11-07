@@ -1,36 +1,20 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: eks-sample-linux-deployment
-  namespace: eks-sample-app
-  labels:
-    app: eks-sample-linux-app
+  name: cd-dep
+  namespace: default
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: eks-sample-linux-app
+  replicas: 1
   template:
     metadata:
       labels:
-        app: eks-sample-linux-app
+        run: dep-instance
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/arch
-                    operator: In
-                    values:
-                      - amd64
-                      - arm64
       containers:
-        - name: nginx
-          image: public.ecr.aws/nginx/nginx:1.23
+        - name: dep-container
+          image: ionrepo:latest
           ports:
-            - name: http
-              containerPort: 80
-          imagePullPolicy: IfNotPresent
-      nodeSelector:
-        kubernetes.io/os: linux
+            - containerPort: 8083
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
